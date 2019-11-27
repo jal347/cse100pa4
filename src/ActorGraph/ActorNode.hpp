@@ -38,7 +38,7 @@ class ActorNode {
 	pair<string, string> previous = make_pair("", "");
 
 	//priority
-	int priority;	
+	int priority = 0;	
 
 
 	//list of all the movies the actor played in 

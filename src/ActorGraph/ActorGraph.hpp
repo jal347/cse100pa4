@@ -79,7 +79,7 @@ class ActorGraph {
 
     void fillCandidates(string q);
     
-    void connect();
+    //void connect();
 };
 
 #endif  // ACTORGRAPH_HPP

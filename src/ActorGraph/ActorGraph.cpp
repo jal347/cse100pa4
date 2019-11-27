@@ -132,7 +132,7 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
     return true;
 }
 
-
+/*
 void ActorGraph::connect() {
     //fill number of connections for current actor
     for(auto curr = actors.begin(); curr != actors.end(); curr++) {
@@ -157,7 +157,7 @@ void ActorGraph::connect() {
     }
 
 }
-
+*/
 void ActorGraph::BFS(string actor1, string actor2){
 	//reset all of the actornodes before running bfs algorithm
 	for(auto it = actors.begin(); it != actors.end(); it++) {
