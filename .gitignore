@@ -11,3 +11,6 @@ __pycache__
 */.DS_Store
 
 *.zip
+*.txt
+*.tsv
+*.sw*
