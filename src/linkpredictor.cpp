@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         string actor(record[0]);
 	cout << "Computing predictions for (" << actor << ")" << endl;
-	graph.connect();	
+	//graph.connect();	
 	graph.fillCandidates(actor);
 	graph.closureCount(actor);
 	vector<string> output;

@@ -230,7 +230,7 @@ void ActorGraph::fillCandidates(string q) {
 		it->second->weight = -1;
 		it->second->previous = pair<string,string>();
 		it->second->priority = 0;
-		//it->second->connections.clear();
+		it->second->connections.clear();
 	}
 
 	
@@ -265,7 +265,7 @@ void ActorGraph::fillCandidates(string q) {
 				// pull actornode out of hashmap of actors using name as key
 				ActorNode * adjActor = actors[j];
 				
-				/*
+				
 				//if not the same actor then we make connection
 				if(adjActor != currNode) {
 					//if there isnt an actor key then make new connection
@@ -277,7 +277,7 @@ void ActorGraph::fillCandidates(string q) {
 						currNode->connections[j] = currNode->connections[j] + 1;
 					}
 
-				} */
+				} 
 
 				//if not visited and not the same actor then update weight, previous and enqueue
 				if(adjActor->weight == -1 && adjActor != currNode) {
