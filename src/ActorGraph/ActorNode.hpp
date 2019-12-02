@@ -34,6 +34,9 @@ class ActorNode {
 	//weight
 	int weight = -1;
 
+	//done?
+	bool done = false;
+
 	//movie, actor pair
 	pair<string, string> previous = make_pair("", "");
 
@@ -46,7 +49,6 @@ class ActorNode {
 	
 	//movie connections
 	unordered_map<string, int> connections;
-
     	/**
      	* Constuctor of the Actor Node
      	*/
@@ -69,6 +71,18 @@ struct ActorNodeComp{
     }
 };
 
+// dj stands for DeJa vu
+struct djComp{
+	bool operator()(pair<string, int> left, pair<string, int> right) const{
+		if(left.second == right.second) {
+			if(left.first.compare(right.first) < 0){
+				return true;
+			}
+			else return false;
+		}
+		return(left.second < right.second);
+	}
+};
 
 
 #endif  // ACTORNODE_HPP

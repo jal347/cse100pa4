@@ -95,7 +95,14 @@ int main(int argc, char* argv[]) {
 			outFile << endl;
 			continue;
 		}
-		graph.BFS(actor1, actor2);
+
+		// use djikstra or bfs depending on whether it's weighted
+		if(isWeighted){
+			graph.shortestPath(actor1, actor2);
+		}
+		else{
+			graph.BFS(actor1, actor2);
+		}
 
 		// we found the connection so now we output it
 		vector<string> outputList;

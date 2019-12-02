@@ -37,7 +37,7 @@ class ActorGraph {
     //these two hashmaps are basically a fake movie class
     // hashmap of all the movies. key: movie#@year value: list of actor names in that movie
     unordered_map<string, vector<string>* > movies;
-    //hashmap of movie and weight
+    //hashmap of of all movies and their weights (inverse year)
     unordered_map<string, int> movieWeight;
 
 

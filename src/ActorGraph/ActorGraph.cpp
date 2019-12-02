@@ -15,6 +15,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <climits>
 #define SECOND_LEVEL 2
 
 using namespace std;
@@ -370,4 +371,76 @@ void ActorGraph::closureCount(string q) {
 	}
 
 	
+}
+
+void shortestPath(string actor1, string actor2){
+	//reset all of the actornodes before running shortest path algorithm
+	for(auto it = actors.begin(); it != actors.end(); it++) {
+		it->second->weight = INT_MAX;
+		it->second->previous = pair<string,string>();
+		it->second->done = false;
+	}
+
+	//a pointer to actor (actor name) and a path cost pair
+	priority_queue<pair<string, int>, vector<pair<string, int>>, djComp> pq;
+
+	cout << "Computing path for (" << actor1 << ") -> (" << actor2 << ")" << endl;
+
+	//starting actor (S)
+	ActorNode * start = actors[actor1];
+	//set S's weight(dist) to 0
+	start->weight = 0;
+
+	//enqueue {S, 0} onto PQ
+	pq.push(make_pair(start->name, start->weight));
+
+	//set a bool found value to cut the shortest path algorithm
+	bool found = false;
+	
+	while(!pq.empty && !found) {
+		//dequeueing node from front of q
+		pair<string, int> curr = pq.top();
+		pq.pop();
+		ActorNode * currNode = actors[curr.first];
+		
+		// check if we found the search term
+		if(curr.first == actor2){
+			found = true;
+		}
+
+		//if node is not done
+		if(currNode->done == false) {
+			//set done as true
+			currNode->done = true;
+			
+			//get all of the adj actorNodes. movieEdge is a string movie@#year
+			for(auto movieEdge : currNode->moviesActed) {
+				//get the edgeWeight
+				int edgeWeight = movieWeight[movieEdge];
+				// j is a String: the name of an actor was in the movie
+				for(auto j: *(movies[movieEdge])) {
+					// pull actornode out of hashmap of actors using name as key
+					ActorNode * adjActor = actors[j];
+					//if not the same actor then update weight, previous and enqueue
+					if(adjActor != currNode) {
+						//get distance from currnode to adj node
+						int compare = currNode->weight + edgeWeight;
+						//if c is less than adj->weight
+						if(adjActor->weight > compare) {
+							//set previous
+							adjActor->previous = make_pair(movieEdge, currNode->name);
+							//set distance
+							adjActor->weight = compare;
+							//enqueue into the pq
+							pq.push(make_pair(adjActor->name, adjActor->weight);
+						}
+					}
+				}
+			}
+
+
+		}
+	}
+	return;
+
 }
