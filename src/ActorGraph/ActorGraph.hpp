@@ -75,6 +75,8 @@ class ActorGraph {
     
     void BFS(string actor1, string actor2);
 
+    void shortestPath(string actor1, string actor2);
+    
     void closureCount(string q);
 
     void fillCandidates(string q);

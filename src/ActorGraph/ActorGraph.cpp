@@ -168,7 +168,6 @@ void ActorGraph::BFS(string actor1, string actor2){
 
 	list<string> queue;
 
-	cout << "Computing path for (" << actor1 << ") -> (" << actor2 << ")" << endl;
 
 
 	
@@ -373,7 +372,7 @@ void ActorGraph::closureCount(string q) {
 	
 }
 
-void shortestPath(string actor1, string actor2){
+void ActorGraph::shortestPath(string actor1, string actor2){
 	//reset all of the actornodes before running shortest path algorithm
 	for(auto it = actors.begin(); it != actors.end(); it++) {
 		it->second->weight = INT_MAX;
@@ -384,7 +383,6 @@ void shortestPath(string actor1, string actor2){
 	//a pointer to actor (actor name) and a path cost pair
 	priority_queue<pair<string, int>, vector<pair<string, int>>, djComp> pq;
 
-	cout << "Computing path for (" << actor1 << ") -> (" << actor2 << ")" << endl;
 
 	//starting actor (S)
 	ActorNode * start = actors[actor1];
@@ -397,16 +395,16 @@ void shortestPath(string actor1, string actor2){
 	//set a bool found value to cut the shortest path algorithm
 	bool found = false;
 	
-	while(!pq.empty && !found) {
+	while(!pq.empty() && !found) {
 		//dequeueing node from front of q
 		pair<string, int> curr = pq.top();
 		pq.pop();
 		ActorNode * currNode = actors[curr.first];
-		
+	/*	TODO uncomment
 		// check if we found the search term
 		if(curr.first == actor2){
 			found = true;
-		}
+		}*/
 
 		//if node is not done
 		if(currNode->done == false) {
@@ -432,7 +430,7 @@ void shortestPath(string actor1, string actor2){
 							//set distance
 							adjActor->weight = compare;
 							//enqueue into the pq
-							pq.push(make_pair(adjActor->name, adjActor->weight);
+							pq.push(make_pair(adjActor->name, adjActor->weight));
 						}
 					}
 				}

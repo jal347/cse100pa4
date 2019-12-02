@@ -74,13 +74,14 @@ struct ActorNodeComp{
 // dj stands for DeJa vu
 struct djComp{
 	bool operator()(pair<string, int> left, pair<string, int> right) const{
+		/* TODO something
 		if(left.second == right.second) {
 			if(left.first.compare(right.first) < 0){
 				return true;
 			}
 			else return false;
-		}
-		return(left.second < right.second);
+		} */
+		return(left.second > right.second);
 	}
 };
 
