@@ -400,11 +400,10 @@ void ActorGraph::shortestPath(string actor1, string actor2){
 		pair<string, int> curr = pq.top();
 		pq.pop();
 		ActorNode * currNode = actors[curr.first];
-	/*	TODO uncomment
 		// check if we found the search term
 		if(curr.first == actor2){
 			found = true;
-		}*/
+		}
 
 		//if node is not done
 		if(currNode->done == false) {
