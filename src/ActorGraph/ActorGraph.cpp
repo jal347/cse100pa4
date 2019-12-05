@@ -133,8 +133,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges) 
     return true;
 }
 
-/*
-void ActorGraph::connect() {
+//helper method to connect all edges
+void ActorGraph::connectEdge() {
     //fill number of connections for current actor
     for(auto curr = actors.begin(); curr != actors.end(); curr++) {
 	ActorNode * currNode = curr->second;
@@ -158,7 +158,7 @@ void ActorGraph::connect() {
     }
 
 }
-*/
+
 void ActorGraph::BFS(string actor1, string actor2){
 	//reset all of the actornodes before running bfs algorithm
 	for(auto it = actors.begin(); it != actors.end(); it++) {
@@ -440,4 +440,85 @@ void ActorGraph::shortestPath(string actor1, string actor2){
 	}
 	return;
 
+}
+
+
+string ActorGraph::find(string s) {
+	//finds the root and makes the root as parent of s
+	if(actors[s]->parent != s) {
+		actors[s]->parent = find(actors[s]->parent);
+	}
+	return actors[s]->parent;
+}
+
+void ActorGraph::Union(string a, string b) {
+	string rootA = find(a);
+	string rootB = find(b);
+
+	//union by the rank
+	if(actors[a]->rank < actors[b]->rank) {
+		actors[a]->parent = rootB;
+	}
+	else if(actors[a]->rank > actors[b]->rank) {
+		actors[b]->parent = rootA;
+	}
+	else {
+		actors[b]->parent = rootA;
+		actors[a]->rank++;
+	}
+}
+
+
+void ActorGraph::kruskals(ostream& out) {
+	Edge * result = new Edge[actors.size()];
+	//count to keep track of where in the results
+	unsigned int count = 0;
+	unsigned int totalWeights = 0;
+	//priority queue to hold all the edges
+	priority_queue<Edge, vector<Edge>, EdgeComp> pq;
+	//manually connect all the edges
+	
+	//manually get all edges and shove into pq
+	for(auto curr = actors.begin(); curr != actors.end(); curr++) {
+	ActorNode * currNode = curr->second;
+	//go through all the movies this actor acted in
+		for(auto movieEdge: currNode->moviesActed) {
+			//go through all the actors in that movie
+			for(auto j: *(movies[movieEdge])){
+				//if the actor name is not itself we add edge
+				if(currNode != actors[j]) {
+					//src, des, movie name, weight
+					Edge e = {currNode->name, j, movieEdge, movieWeight[movieEdge]};
+					pq.push(e);
+				}		
+			}
+		}
+	}
+	
+	
+	// run union find on the pq
+	while(count < actors.size() - 1 && !pq.empty()){
+		Edge smallestE = pq.top();
+		pq.pop();
+
+		string a = find(smallestE.src);
+		string b = find(smallestE.dest);
+		//cycle check
+		if(a.compare(b) != 0) {
+			totalWeights += smallestE.weight;	
+			*(result + count) = smallestE;
+			count++;
+			Union(a,b);
+		}
+	}
+	
+	for(unsigned int i = 0; i < actors.size() -1; i++){
+		Edge curr = *(result+i);
+		out << curr.src << " " << curr.movie << " " << curr.dest << endl;
+	}
+	out << "#NODE CONNECTED: " << actors.size() << endl;
+	out << "#EDGE CHOSEN: " << actors.size() -1 << endl;
+	// TODO do this part
+	out << "#TOTAL EDGE WEIGHTS: " << totalWeights;
+	delete [] result;
 }
