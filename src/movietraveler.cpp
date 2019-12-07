@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     // Initialize the output stream
     ofstream outFile;
     outFile.open(argv[OUTARG], ios::out);
-    outFile << "(actor)--[movie#@year]-->(actor)--..." << endl;
+    outFile << "(actor)<--[movie#@year]-->(actor)" << endl;
 
     graph.kruskals(outFile);
 }

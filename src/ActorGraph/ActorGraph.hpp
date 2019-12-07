@@ -79,7 +79,6 @@ class ActorGraph {
     void closureCount(string q);
 
     void fillCandidates(string q);
-
 };
 
 #endif  // ACTORGRAPH_HPP
