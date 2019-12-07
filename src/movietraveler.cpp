@@ -1,7 +1,11 @@
 /**
- * TODO: file header
+ * Felix Chu fhchu@ucsd.edu
+ * Jason Lin jal347@ucsd.edu
  *
- * Author:
+ * Decompresses a compressed file either with true compression or ascii human-
+ * readable compression
+ *
+ * Sources: Class notes, 
  */
 
 #include <fstream>
@@ -13,6 +17,7 @@
 
 using namespace std;
 
+/* Main program that runs the movietraveler */
 int main(int argc, char* argv[]) {
     ActorGraph graph;
 
@@ -30,5 +35,6 @@ int main(int argc, char* argv[]) {
     outFile.open(argv[OUTARG], ios::out);
     outFile << "(actor)<--[movie#@year]-->(actor)" << endl;
 
+    // construct the data with a kruskal's algorithm and output to file
     graph.kruskals(outFile);
 }

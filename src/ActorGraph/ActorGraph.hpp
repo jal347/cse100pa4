@@ -1,11 +1,14 @@
 /*
  * ActorGraph.hpp
- * Author: <YOUR NAME HERE>
- * Date:   <DATE HERE>
+ * Author: Felix Chu fhchu@ucsd.edu
+ *         Jason Lin jal347@ucsd.edu
+ * Date:   12-06-2019
  *
  * This file is meant to exist as a container for starter code that you can use
  * to read the input file format defined imdb_2019.tsv. Feel free to modify
  * any/all aspects as you wish.
+ * 
+ * Sources: class notes, discussion slides
  */
 
 #ifndef ACTORGRAPH_HPP
@@ -79,6 +82,8 @@ class ActorGraph {
     void closureCount(string q);
 
     void fillCandidates(string q);
+
+    ~ActorGraph();
 };
 
 #endif  // ACTORGRAPH_HPP

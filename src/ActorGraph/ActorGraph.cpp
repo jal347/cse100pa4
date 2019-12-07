@@ -1,11 +1,14 @@
 /*
  * ActorGraph.cpp
- * Author: <YOUR NAME HERE>
- * Date:   <DATE HERE>
+ * Author: Felix Chu fhchu@ucsd.edu
+ *         Jason Lin jal347@ucsd.edu
+ * Date:   12-06-2019
  *
  * This file is meant to exist as a container for starter code that you can use
  * to read the input file format defined in imdb_2019.tsv. Feel free to modify
  * any/all aspects as you wish.
+ *
+ * Sources: class notes, discussion slides
  */
 
 #include "ActorGraph.hpp"
@@ -18,7 +21,10 @@
 #include <string>
 #include <vector>
 #define SECOND_LEVEL 2
-
+#define NUM_COLS 3
+#define YEAR_COL 2
+#define CURRENT_YEAR 2019
+#define NUM_COLLABS 4
 using namespace std;
 
 /**
@@ -68,19 +74,17 @@ bool ActorGraph::loadFromFile(const char* in_filename,
             record.push_back(str);
         }
 
-        if (record.size() != 3) {
+        if (record.size() != NUM_COLS) {
             // we should have exactly 3 columns
             continue;
         }
 
         string actor(record[0]);
         string movie_title(record[1]);
-        int year = stoi(record[2]);
-
-        // TODO: we have an actor/movie relationship, now what?
+        int year = stoi(record[YEAR_COL]);
 
         // get the realMovie name
-        string realMovie = movie_title + "#@" + record[2];
+        string realMovie = movie_title + "#@" + record[YEAR_COL];
 
         // check if there is an actornode if there isnt make a new one and shove
         // it into the hashmap
@@ -98,7 +102,7 @@ bool ActorGraph::loadFromFile(const char* in_filename,
         // weight check
         int weight;
         if (use_weighted_edges) {
-            weight = 1 + (2019 - year);
+            weight = 1 + (CURRENT_YEAR - year);
         } else {
             weight = 1;
         }
@@ -129,7 +133,21 @@ bool ActorGraph::loadFromFile(const char* in_filename,
 
     return true;
 }
+/* deconstructor for ActorGraph; frees up memory from heap by iterating through
+   hashmaps that may have data in them */
+ActorGraph::~ActorGraph(){
+    // run through the hashmap of all the actors and free memory
+    for (auto it = actors.begin(); it != actors.end(); it++) {
+        delete(it->second);
+    }
 
+    // run through the hashmap of all the movies and free memory
+    for (auto it = movies.begin(); it != movies.end(); it++) {
+        delete(it->second);
+    }
+
+
+}
 // helper method to connect all edges
 void ActorGraph::connectEdge() {
     // fill number of connections for current actor
@@ -156,6 +174,8 @@ void ActorGraph::connectEdge() {
     }
 }
 
+/* iterate through the actor-movie graph with a breadth first search to find
+   shortest path */
 void ActorGraph::BFS(string actor1, string actor2) {
     // reset all of the actornodes before running bfs algorithm
     for (auto it = actors.begin(); it != actors.end(); it++) {
@@ -319,7 +339,7 @@ void ActorGraph::closureCount(string q) {
 
     // go through collab 1 and shove into priority queue
     for (unsigned int i = 0; i < collab1.size(); i++) {
-        if (pq1.size() >= 4) {
+        if (pq1.size() >= NUM_COLLABS) {
             pq1.push(actors[collab1[i]]);
             pq1.pop();
         } else {
@@ -353,7 +373,7 @@ void ActorGraph::closureCount(string q) {
 
     // go through collab 2 and shove into priority queue
     for (unsigned int i = 0; i < collab2.size(); i++) {
-        if (pq2.size() >= 4) {
+        if (pq2.size() >= NUM_COLLABS) {
             pq2.push(actors[collab2[i]]);
             pq2.pop();
         } else {
@@ -507,3 +527,4 @@ void ActorGraph::kruskals(ostream& out) {
     out << "TOTAL EDGE WEIGHTS: " << totalWeights;
     delete[] result;
 }
+

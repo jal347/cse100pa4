@@ -1,11 +1,14 @@
 /*
  * ActorNode.hpp
- * Author: <YOUR NAME HERE>
- * Date:   <DATE HERE>
+ * Author: Felix Chu fhchu@ucsd.edu
+ *         Jason Lin jal347@ucsd.edu
+ * Date:   12-06-2019
  *
  * This file is meant to exist as a container for starter code that you can use
  * to read the input file format defined imdb_2019.tsv. Feel free to modify
  * any/all aspects as you wish.
+ *
+ * Sources: class notes, discussion slides
  */
 
 #ifndef ACTORNODE_HPP
@@ -21,7 +24,8 @@
 using namespace std;
 
 /**
- * TODO: add class header
+ * ActorNode class contains all the data values required to build an imdb graph
+ * and traverse it using BFS, Djikstra's, and Kruskals.
  */
 class ActorNode {
   public:
@@ -55,6 +59,7 @@ class ActorNode {
     ActorNode(string name) : name(name), parent(name) {}
 };
 
+// comparator for ActorNodes. if priority is equal, compares names. 
 struct ActorNodeComp {
     bool operator()(ActorNode*& left, ActorNode*& right) const {
         if (left->priority == right->priority) {
@@ -71,13 +76,6 @@ struct ActorNodeComp {
 // dj stands for DeJa vu
 struct djComp {
     bool operator()(pair<string, int> left, pair<string, int> right) const {
-        /* TODO something
-        if(left.second == right.second) {
-                if(left.first.compare(right.first) < 0){
-                        return true;
-                }
-                else return false;
-        } */
         return (left.second > right.second);
     }
 };
@@ -90,6 +88,7 @@ struct Edge {
     int weight;
 };
 
+// Compares edges by weights to work with a priority queue
 struct EdgeComp {
     bool operator()(Edge left, Edge right) {
         return (left.weight > right.weight);
