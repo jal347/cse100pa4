@@ -2,10 +2,10 @@
  * Felix Chu fhchu@ucsd.edu
  * Jason Lin jal347@ucsd.edu
  *
- * Decompresses a compressed file either with true compression or ascii human-
- * readable compression
+ * movietraveler.cpp loads a data file and outputs a minimal spanning tree of
+ * the movies and actors with the most recent movies possible.
  *
- * Sources: Class notes, 
+ * Sources: Class notes, discussion slides
  */
 
 #include <fstream>

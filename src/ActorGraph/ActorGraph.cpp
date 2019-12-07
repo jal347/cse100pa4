@@ -135,18 +135,16 @@ bool ActorGraph::loadFromFile(const char* in_filename,
 }
 /* deconstructor for ActorGraph; frees up memory from heap by iterating through
    hashmaps that may have data in them */
-ActorGraph::~ActorGraph(){
+ActorGraph::~ActorGraph() {
     // run through the hashmap of all the actors and free memory
     for (auto it = actors.begin(); it != actors.end(); it++) {
-        delete(it->second);
+        delete (it->second);
     }
 
     // run through the hashmap of all the movies and free memory
     for (auto it = movies.begin(); it != movies.end(); it++) {
-        delete(it->second);
+        delete (it->second);
     }
-
-
 }
 // helper method to connect all edges
 void ActorGraph::connectEdge() {
@@ -224,12 +222,6 @@ void ActorGraph::BFS(string actor1, string actor2) {
         }
     }
     return;
-    // if the queue is empty, we didn't find a connection
-    /*
-    if(queue.size() == 0){
-            cout << "were returnin lol" << endl;
-            return;
-    }*/
 }
 
 // fills collab1 and collab2 with strings based on the query node
@@ -314,6 +306,8 @@ void ActorGraph::fillCandidates(string q) {
     }
 }
 
+/* Calculates all the possible closures (for collaborated and uncollaborated
+   and puts them into a pq to grab the best ones later */
 void ActorGraph::closureCount(string q) {
     // for the first group determine priority of each candidate
     for (auto cand : collab1) {
@@ -381,7 +375,7 @@ void ActorGraph::closureCount(string q) {
         }
     }
 }
-
+/* runs djikstra's shortest path algorithm on the weighted graph */
 void ActorGraph::shortestPath(string actor1, string actor2) {
     // reset all of the actornodes before running shortest path algorithm
     for (auto it = actors.begin(); it != actors.end(); it++) {
@@ -451,6 +445,7 @@ void ActorGraph::shortestPath(string actor1, string actor2) {
     return;
 }
 
+/* finds the root of a node, doing path compression along the way */
 string ActorGraph::find(string s) {
     // finds the root and makes the root as parent of s
     if (actors[s]->parent != s) {
@@ -459,6 +454,7 @@ string ActorGraph::find(string s) {
     return actors[s]->parent;
 }
 
+/* finds two nodes and combines them under one root */
 void ActorGraph::Union(string a, string b) {
     string rootA = find(a);
     string rootB = find(b);
@@ -473,7 +469,7 @@ void ActorGraph::Union(string a, string b) {
         actors[a]->rank++;
     }
 }
-
+/* runs kruskal's and union find algorithm to create a minimal spanning tree */
 void ActorGraph::kruskals(ostream& out) {
     Edge* result = new Edge[actors.size()];
     // count to keep track of where in the results
@@ -527,4 +523,3 @@ void ActorGraph::kruskals(ostream& out) {
     out << "TOTAL EDGE WEIGHTS: " << totalWeights;
     delete[] result;
 }
-

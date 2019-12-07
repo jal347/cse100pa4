@@ -1,7 +1,12 @@
 /**
- * TODO: file header
+ * Felix Chu fhchu@ucsd.edu
+ * Jason Lin jal347@ucsd.edu
  *
- * Author:
+ * Pathfinder.cpp loads imdb actor and movie data from file and outputs either
+ * a weighted or unweighted list of shortest path ways to get from one actor
+ * to another in a pair.
+ *
+ * Sources: Class notes, discussion slides
  */
 #include <fstream>
 #include <iostream>
@@ -15,7 +20,7 @@
 #define PAIRSARG 3
 #define OUTARG 4
 #define NUMCOLS 2
-/* TODO: Main program that runs the pathfinder */
+/* Main program that runs the pathfinder */
 
 int main(int argc, char* argv[]) {
     ActorGraph graph;
@@ -120,10 +125,4 @@ int main(int argc, char* argv[]) {
             outFile << outputList[i];
         }
     }
-
-    /*
-            if(!isWeighted){
-                    graph.Djikstra(argv[pairsArg], argv[outArg]);
-            }
-    */
 }

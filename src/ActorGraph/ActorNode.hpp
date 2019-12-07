@@ -59,7 +59,7 @@ class ActorNode {
     ActorNode(string name) : name(name), parent(name) {}
 };
 
-// comparator for ActorNodes. if priority is equal, compares names. 
+// comparator for ActorNodes. if priority is equal, compares names.
 struct ActorNodeComp {
     bool operator()(ActorNode*& left, ActorNode*& right) const {
         if (left->priority == right->priority) {

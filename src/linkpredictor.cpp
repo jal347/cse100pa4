@@ -1,7 +1,12 @@
 /**
- * TODO: file header
+ * Felix Chu fhchu@ucsd.edu
+ * Jason Lin jal347@ucsd.edu
  *
- * Author:
+ * Link predictor takes in imdb data and crates two output files, one that
+ * contains recommended actors who have already worked with them, and one with
+ * recommended actors who have not yet collaborated.
+ *
+ * Sources: Class notes, discussion slides
  */
 #include <fstream>
 #include <iostream>
@@ -13,7 +18,7 @@
 #define COLLAB 3
 #define UNCOLLAB 4
 #define TAB '\t'
-/* TODO: Main program that runs the linkpredictor */
+/* Main program that runs the linkpredictor */
 
 int main(int argc, char* argv[]) {
     ActorGraph graph;
@@ -74,9 +79,9 @@ int main(int argc, char* argv[]) {
         graph.fillCandidates(actor);
         graph.closureCount(actor);
         vector<string> output;
+        // empty pq of neighbors who have collaborated and write to file
         while (!graph.pq1.empty()) {
-            output.push_back(graph.pq1.top()->name + "\t");
-            // collabOut << graph.pq1.top()->name << "\t";
+            output.push_back(graph.pq1.top()->name + TAB);
             graph.pq1.pop();
         }
         reverse(output.begin(), output.end());
@@ -85,9 +90,10 @@ int main(int argc, char* argv[]) {
         }
         collabOut << endl;
         output.clear();
+
+        // empty pq of neighbors who haven't collaborated and write to file
         while (!graph.pq2.empty()) {
-            output.push_back(graph.pq2.top()->name + "\t");
-            // uncollabOut << graph.pq2.top()->name << "\t";
+            output.push_back(graph.pq2.top()->name + TAB);
             graph.pq2.pop();
         }
         reverse(output.begin(), output.end());
